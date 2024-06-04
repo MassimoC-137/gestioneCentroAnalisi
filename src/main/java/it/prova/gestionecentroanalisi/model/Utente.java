@@ -60,6 +60,16 @@ public class Utente {
 	@JoinTable(name = "utente_ruolo", joinColumns = @JoinColumn(name = "utente_id", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "ruolo_id", referencedColumnName = "ID"))
 	private Set<Ruolo> ruoli = new HashSet<>(0);
 	
-	
+	public Utente(Long id, String username, String password, String email, String nome, String cognome,
+			String codiceFiscale, Boolean attivo) {
+		this.id = id;
+		this.username = username;
+		this.password = password;
+		this.email = email;
+		this.nome = nome;
+		this.cognome = cognome;
+		this.codiceFiscale = codiceFiscale;
+		this.attivo = attivo;
+	}
 	
 }

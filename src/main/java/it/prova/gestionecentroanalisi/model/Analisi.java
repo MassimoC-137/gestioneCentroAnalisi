@@ -32,11 +32,9 @@ public class Analisi {
 	private Long id; 
 	@Column(name = "esito_buono")
 	private Boolean esitoBuono; 
-	
 	@Enumerated(EnumType.STRING)
 	private TipoAnalisi tipo;
-	
-	@Column(name = "dataOra")
+	@Column(name = "data_ora")
 	private LocalDateTime dataOra;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
