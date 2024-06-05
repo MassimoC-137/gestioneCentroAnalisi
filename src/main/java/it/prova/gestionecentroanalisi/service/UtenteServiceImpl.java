@@ -87,7 +87,7 @@ public class UtenteServiceImpl implements UtenteService {
 		if (user != null && passwordEncoder.matches(password, user.getPassword()))
 			return user;
 		return null;
-	}
+	}		
 
 	@Override
 	public void changeUserAbilitation(Long utenteInstanceId) {

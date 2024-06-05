@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>it.prova</groupId>
 	<artifactId>gestionecentroanalisi</artifactId>
-	<version>0.0.6-SNAPSHOT</version>
+	<version>0.0.7-SNAPSHOT</version>
 	<name>gestionecentroanalisi</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>

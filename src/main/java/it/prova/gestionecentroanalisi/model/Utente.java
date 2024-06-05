@@ -50,10 +50,10 @@ public class Utente {
 	@Column(name = "attivo")
 	private Boolean attivo; 
 	
-	@Enumerated(EnumType.STRING)
-	private StatoUtente stato;
+//	@Enumerated(EnumType.STRING)
+//	private StatoUtente stato;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "utente")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "paziente")
 	private List<Analisi> analisi = new ArrayList<>(); 
 	
 	@ManyToMany
@@ -70,6 +70,14 @@ public class Utente {
 		this.cognome = cognome;
 		this.codiceFiscale = codiceFiscale;
 		this.attivo = attivo;
+	}
+	
+	public boolean isAdmin() {
+		for (Ruolo ruoloItem : ruoli) {
+			if (ruoloItem.getCodice().equals(Ruolo.ROLE_ADMIN))
+				return true;
+		}
+		return false;
 	}
 	
 }

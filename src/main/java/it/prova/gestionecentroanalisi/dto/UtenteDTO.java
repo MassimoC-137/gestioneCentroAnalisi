@@ -47,8 +47,8 @@ public class UtenteDTO {
 	@NotNull(message = "{attivo.notblank}")
 	private Boolean attivo;
 
-	@NotNull(message = "{stato.notblank}")
-	private StatoUtente stato;
+//	@NotNull(message = "{stato.notblank}")
+//	private StatoUtente stato;
 	
 	private Long[] ruoliIds; 
 	
@@ -64,7 +64,7 @@ public class UtenteDTO {
 	}
 	
 	public Utente buildUtenteModel(Boolean includeIdRoles) {
-		Utente res = new Utente(this.id, this.username, this.email, this.password, this.nome, this.cognome, this.codiceFiscale, this.attivo);
+		Utente res = new Utente(this.id, this.username, this.password, this.email, this.nome, this.cognome, this.codiceFiscale, this.attivo);
 				if (includeIdRoles && ruoliIds != null)
 					res.setRuoli(Arrays.asList(ruoliIds).stream().map(id -> new Ruolo(id)).collect(Collectors.toSet()));
 				return res;

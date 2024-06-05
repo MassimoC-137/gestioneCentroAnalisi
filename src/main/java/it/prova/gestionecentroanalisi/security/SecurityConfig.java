@@ -42,7 +42,7 @@ public class SecurityConfig {
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.csrf(csrf -> csrf.disable()) // Disables CSRF protection, common in stateless REST APIs.
 				.cors(cors -> cors.disable()).authorizeHttpRequests(authorize -> authorize
-						.requestMatchers("/api/auth/login").permitAll()
+						.requestMatchers("/api/auth/**").permitAll()
 						.anyRequest().authenticated() // Ensures
 																														// all
 																														// requests
