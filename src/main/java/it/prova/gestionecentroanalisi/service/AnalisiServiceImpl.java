@@ -53,23 +53,30 @@ public class AnalisiServiceImpl implements AnalisiService {
 
 	@Override
 	public Analisi inserisciNuova(Analisi input, String username) {
-		Optional<Utente> pazienteOptional = utenteRepository.findByUsername(username);
-		Utente paziente = pazienteOptional.get();
-		if (paziente == null)
-			throw new ElementNotFoundException("Paziente not Found");
 		if (input.getId() != null)
 			throw new IdNotNullForInsertException("Id must be null for this operation");
-		if (input.getPaziente() != null)
-			throw new AnalisiPazienteAlreadyValorizedException("The paziente field must be null");
-		input.setPaziente(paziente);
+//		if (input.getPaziente().getUsername() != username && input.getPaziente().isAdmin()) {
+//			analisiRepository.save(input);
+//		} else {
+//			throw new NotSamePazienteException("The current Paziente and the Analisi's Paziente Are not the same");
+//		}
+		if (input.getPaziente() == null) {
+			Optional<Utente> pazienteOptional = utenteRepository.findByUsername(username);
+			Utente paziente = pazienteOptional.get();
+			input.setPaziente(paziente);
+		}
 		return analisiRepository.save(input);
-
 	}
 
 	@Override
 	public Analisi aggiorna(Analisi input, String username) {
-		if (input.getPaziente() == null)
-			throw new AnalisiWithoutPazienteException("This Analisi doesn't have a paziente associated to it.");
+		if (analisiRepository.findById(input.getId()) == null)
+			throw new ElementNotFoundException("Couldn't find analisi with id:" + input.getId());
+		if (input.getPaziente() == null) {
+				Optional<Utente> pazienteOptional = utenteRepository.findByUsername(username);
+				Utente paziente = pazienteOptional.get();
+				input.setPaziente(paziente);
+			}
 		if (!input.getPaziente().getUsername().equals(username))
 			throw new NotSamePazienteException("The current Paziente and the Analisi's paziente are not the same");
 		input.setPaziente(utenteRepository.findByUsername(username).orElse(null));
