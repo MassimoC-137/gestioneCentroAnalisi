@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
 
 @Configuration
 @EnableWebSecurity
@@ -27,7 +28,7 @@ public class SecurityConfig {
 
 	@Autowired
 	private JWTAuthEntryPoint unauthorizedHandler;
-
+	
 	@Bean
 	public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
 		return http.getSharedObject(AuthenticationManagerBuilder.class).build();
@@ -41,7 +42,15 @@ public class SecurityConfig {
 	@Bean // Indicates that this method returns a Spring bean.
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.csrf(csrf -> csrf.disable()) // Disables CSRF protection, common in stateless REST APIs.
-				.cors(cors -> cors.disable()).authorizeHttpRequests(authorize -> authorize
+				.cors(cors -> cors.configurationSource(request -> {
+					CorsConfiguration config = new CorsConfiguration();
+					config.setAllowCredentials(true);
+			        config.addAllowedOrigin("http://localhost:4200"); // Permetti solo l'origine Angular durante lo sviluppo
+			        config.addAllowedHeader("*");
+			        config.addAllowedMethod("*");
+			        return config;
+				}))
+				.authorizeHttpRequests(authorize -> authorize
 						.requestMatchers("/api/auth/**").permitAll()
 						.anyRequest().authenticated() // Ensures
 																														// all
