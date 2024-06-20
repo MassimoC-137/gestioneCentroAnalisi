@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import it.prova.gestionecentroanalisi.model.Ruolo;
-import it.prova.gestionecentroanalisi.model.StatoUtente;
 import it.prova.gestionecentroanalisi.model.Utente;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

@@ -46,8 +46,8 @@ public class RuoloServiceImpl implements RuoloService{
 	}
 
 	@Override
-	public Ruolo cercaPerDescrizioneECodice(String descrizione, String codice) {
-		return ruoloRepository.findByDescrizioneAndCodice(descrizione, codice);
+	public Ruolo cercaPerDescrizione(String descrizione) {
+		return ruoloRepository.findByDescrizione(descrizione);
 	}
 
 }

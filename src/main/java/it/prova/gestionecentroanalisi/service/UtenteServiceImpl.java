@@ -14,6 +14,7 @@ import it.prova.gestionecentroanalisi.model.Ruolo;
 import it.prova.gestionecentroanalisi.model.Utente;
 import it.prova.gestionecentroanalisi.repository.RuoloRepository;
 import it.prova.gestionecentroanalisi.repository.UtenteRepository;
+import it.prova.gestionecentroanalisi.web.api.exception.ElementNotFoundException;
 import it.prova.gestionecentroanalisi.web.api.exception.IdNotNullForInsertException;
 
 @Service
@@ -45,30 +46,33 @@ public class UtenteServiceImpl implements UtenteService {
 	}
 
 	@Override
-	public void aggiorna(Utente utenteInstance) {
-		Utente utenteReloaded = utenteRepository.findById(utenteInstance.getId()).orElse(null);
-		if (utenteReloaded == null)
-			throw new RuntimeException("Utente non trovato");
-		utenteReloaded.setNome(utenteInstance.getNome());
-		utenteReloaded.setCognome(utenteInstance.getCognome());
-		utenteReloaded.setCodiceFiscale(utenteInstance.getCodiceFiscale());
-		utenteReloaded.setEmail(utenteInstance.getEmail());
-		utenteReloaded.setRuoli(utenteInstance.getRuoli());
-		utenteRepository.save(utenteReloaded);
+	public Utente aggiorna(Utente utenteInstance) {
+	    Utente utenteReloaded = utenteRepository.findById(utenteInstance.getId()).orElse(null);
+	    if (utenteReloaded == null)
+	        throw new RuntimeException("Utente non trovato");
+	    utenteReloaded.setNome(utenteInstance.getNome());
+	    utenteReloaded.setCognome(utenteInstance.getCognome());
+	    utenteReloaded.setCodiceFiscale(utenteInstance.getCodiceFiscale());
+	    utenteReloaded.setEmail(utenteInstance.getEmail());
+	    utenteReloaded.setRuoli(utenteInstance.getRuoli());
+	    return utenteRepository.save(utenteReloaded);
 	}
 
 	@Override
-	public void inserisciNuovo(Utente utenteInstance) {
-		if (utenteInstance.getId() != null) {
-			throw new IdNotNullForInsertException("Id must be null for insert operation");
-		}
-		Set<Ruolo> ruoli = new HashSet<Ruolo>();
-		ruoli.add(ruoloRepository.findByDescrizioneAndCodice("Classic User", Ruolo.ROLE_CLASSIC_PATIENT));
-		utenteInstance.setRuoli(ruoli);
-		utenteInstance.setAttivo(true);
-		utenteInstance.setPassword(passwordEncoder.encode(utenteInstance.getPassword()));
-		utenteRepository.save(utenteInstance);
+	public Utente inserisciNuovo(Utente utenteInstance) {
+	    if (utenteInstance.getId() != null) {
+	        throw new IdNotNullForInsertException("Id must be null for insert operation");
+	    }
+	    Set<Ruolo> ruoli = new HashSet<Ruolo>();
+	    if(!utenteInstance.getUsername().equals("admin")) {	    	
+	    	ruoli.add(ruoloRepository.findByDescrizione("Classic User"));
+	    	utenteInstance.setRuoli(ruoli);
+	    }
+	    utenteInstance.setAttivo(true);
+	    utenteInstance.setPassword(passwordEncoder.encode(utenteInstance.getPassword()));
+	    return utenteRepository.save(utenteInstance);
 	}
+
 
 	@Override
 	public void rimuovi(Long idToRemove) {
@@ -101,5 +105,21 @@ public class UtenteServiceImpl implements UtenteService {
 	public Utente findByUsername(String username) {
 		return utenteRepository.findByUsername(username).orElse(null);
 	}
+	
+	@Override
+    public void assignRoleToUser(Long userId, String roleCode) {
+        Utente user = utenteRepository.findById(userId).orElseThrow(() -> new ElementNotFoundException("Utente non trovato"));
+        Ruolo role = ruoloRepository.findByCodice(roleCode);
+        user.addRole(role);
+        utenteRepository.save(user);
+    }
+
+    @Override
+    public void removeRoleFromUser(Long userId, String roleCode) {
+        Utente user = utenteRepository.findById(userId).orElseThrow(() -> new ElementNotFoundException("Utente non trovato"));
+        Ruolo role = ruoloRepository.findByCodice(roleCode);
+        user.removeRole(role);
+        utenteRepository.save(user);
+    }
 
 }

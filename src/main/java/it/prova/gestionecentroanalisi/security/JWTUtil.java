@@ -2,6 +2,7 @@ package it.prova.gestionecentroanalisi.security;
 
 import java.util.Date;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -37,6 +38,11 @@ public class JWTUtil {
 				.withSubject("User Details")
 				.withClaim("username", username)
 				.withClaim("email", utente.getEmail())
+				.withArrayClaim("roles", utente.getRuoli()
+						.stream()
+						.map(elem -> elem.getCodice())
+						.collect(Collectors.toList()).toArray(String[]::new)
+				)
 				.withIssuedAt(new Date())
 				.withIssuer("ANALISI")
 				.withExpiresAt(new Date((new Date()).getTime() + jwtExpirationMs))

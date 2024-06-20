@@ -19,4 +19,7 @@ public interface UtenteRepository  extends CrudRepository<Utente, Long>{
 	@EntityGraph(attributePaths = { "ruoli" })
 	Utente findByUsernameAndPasswordAndAttivo(String username, String password, Boolean attivo);
 
+	@Override
+    Optional<Utente> findById(Long id);
+	
 }

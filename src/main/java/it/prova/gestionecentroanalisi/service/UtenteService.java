@@ -12,9 +12,9 @@ public interface UtenteService {
 
 	public Utente caricaSingoloUtenteConRuoli(Long id);
 
-	public void aggiorna(Utente utenteInstance);
+	public Utente aggiorna(Utente utenteInstance);
 
-	public void inserisciNuovo(Utente utenteInstance);
+	public Utente inserisciNuovo(Utente utenteInstance);
 
 	public void rimuovi(Long idToRemove);
 
@@ -25,5 +25,9 @@ public interface UtenteService {
 	public void changeUserAbilitation(Long utenteInstanceId);
 
 	public Utente findByUsername(String username);
+	
+	public void assignRoleToUser(Long userId, String roleCode);
+
+	public void removeRoleFromUser(Long userId, String roleCode);
 
 }

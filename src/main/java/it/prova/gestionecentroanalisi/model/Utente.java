@@ -80,4 +80,17 @@ public class Utente {
 		return false;
 	}
 	
+	
+	public boolean hasRole(String roleCode) {
+        return this.ruoli.stream().anyMatch(role -> role.getCodice().equals(roleCode));
+    }
+
+    public void addRole(Ruolo role) {
+        this.ruoli.add(role);
+    }
+
+    public void removeRole(Ruolo role) {
+        this.ruoli.remove(role);
+    }
+
 }
