@@ -20,8 +20,8 @@ import lombok.NoArgsConstructor;
 public class Ruolo {
 	
 	public static final String ROLE_ADMIN = "ROLE_ADMIN";
-	public static final String ROLE_CLASSIC_PATIENT = "ROLE_CLASSIC_PATIENT";
 	public static final String ROLE_CLASSIC_DOCTOR = "ROLE_CLASSIC_DOCTOR";
+	public static final String ROLE_CLASSIC_PATIENT = "ROLE_CLASSIC_PATIENT";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

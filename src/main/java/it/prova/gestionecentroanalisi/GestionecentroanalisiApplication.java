@@ -32,13 +32,13 @@ public class GestionecentroanalisiApplication implements CommandLineRunner {
 			ruoloServiceInstance.inserisciNuovo(new Ruolo("Administrator", Ruolo.ROLE_ADMIN));
 		}
 
-		if (ruoloServiceInstance.cercaPerDescrizione("Classic User") == null) {
-			ruoloServiceInstance.inserisciNuovo(new Ruolo("Classic User", Ruolo.ROLE_CLASSIC_PATIENT));
-		}
-		
 		if (ruoloServiceInstance.cercaPerDescrizione("Classic Doctor") == null) {
             ruoloServiceInstance.inserisciNuovo(new Ruolo("Classic Doctor", Ruolo.ROLE_CLASSIC_DOCTOR));
         }
+		
+		if (ruoloServiceInstance.cercaPerDescrizione("Classic User") == null) {
+			ruoloServiceInstance.inserisciNuovo(new Ruolo("Classic User", Ruolo.ROLE_CLASSIC_PATIENT));
+		}
 		
 		if (utenteServiceInstance.findByUsername("admin") == null) {
             Utente admin = new Utente();
