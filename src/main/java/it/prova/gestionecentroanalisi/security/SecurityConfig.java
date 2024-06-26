@@ -44,7 +44,7 @@ public class SecurityConfig {
 		http.csrf(csrf -> csrf.disable()) // Disables CSRF protection, common in stateless REST APIs.
 				.cors(cors -> cors.configurationSource(request -> {
 					CorsConfiguration config = new CorsConfiguration();
-					config.setAllowCredentials(true);
+//					config.setAllowCredentials(true);
 			        config.addAllowedOrigin("http://localhost:4200"); // Permetti solo l'origine Angular durante lo sviluppo
 			        config.addAllowedHeader("*");
 			        config.addAllowedMethod("*");

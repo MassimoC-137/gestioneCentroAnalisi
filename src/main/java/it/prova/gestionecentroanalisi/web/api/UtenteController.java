@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -18,13 +19,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.prova.gestionecentroanalisi.dto.UtenteDTO;
+import it.prova.gestionecentroanalisi.model.MedicoPaziente;
 import it.prova.gestionecentroanalisi.model.Ruolo;
 import it.prova.gestionecentroanalisi.model.Utente;
 import it.prova.gestionecentroanalisi.security.dto.UtenteInfoJWTResponseDTO;
 import it.prova.gestionecentroanalisi.service.UtenteService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api/utente")
 public class UtenteController {
 
@@ -83,6 +84,24 @@ public class UtenteController {
     @PostMapping("/{id}/demote")
     public void demoteUser(@PathVariable Long id, @RequestBody String roleCode) {
         utenteService.removeRoleFromUser(id, roleCode);
+    }
+
+    @PostMapping("/{medicoId}/addPaziente/{pazienteId}")
+    public ResponseEntity<MedicoPaziente> aggiungiPazienteAMedico(@PathVariable Long medicoId, @PathVariable Long pazienteId) {
+        MedicoPaziente collegamento = utenteService.aggiungiPazienteAMedico(medicoId, pazienteId);
+        return new ResponseEntity<>(collegamento, HttpStatus.OK);
+    }
+
+    @GetMapping("/{medicoId}/pazienti")
+    public ResponseEntity<List<Utente>> trovaPazientiPerMedico(@PathVariable Long medicoId) {
+        List<Utente> pazienti = utenteService.trovaPazientiPerMedico(medicoId);
+        return new ResponseEntity<>(pazienti, HttpStatus.OK);
+    }
+
+    @GetMapping("/{pazienteId}/medici")
+    public ResponseEntity<List<Utente>> trovaMediciPerPaziente(@PathVariable Long pazienteId) {
+        List<Utente> medici = utenteService.trovaMediciPerPaziente(pazienteId);
+        return new ResponseEntity<>(medici, HttpStatus.OK);
     }
 
 }

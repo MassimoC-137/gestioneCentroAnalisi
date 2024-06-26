@@ -59,7 +59,7 @@ public class Utente {
 	@ManyToMany
 	@JoinTable(name = "utente_ruolo", joinColumns = @JoinColumn(name = "utente_id", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "ruolo_id", referencedColumnName = "ID"))
 	private Set<Ruolo> ruoli = new HashSet<>(0);
-	
+    
 	public Utente(Long id, String username, String password, String email, String nome, String cognome,
 			String codiceFiscale, Boolean attivo) {
 		this.id = id;
@@ -79,7 +79,6 @@ public class Utente {
 		}
 		return false;
 	}
-	
 	
 	public boolean hasRole(String roleCode) {
         return this.ruoli.stream().anyMatch(role -> role.getCodice().equals(roleCode));

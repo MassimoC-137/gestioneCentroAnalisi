@@ -10,8 +10,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import it.prova.gestionecentroanalisi.model.MedicoPaziente;
 import it.prova.gestionecentroanalisi.model.Ruolo;
 import it.prova.gestionecentroanalisi.model.Utente;
+import it.prova.gestionecentroanalisi.repository.MedicoPazienteRepository;
 import it.prova.gestionecentroanalisi.repository.RuoloRepository;
 import it.prova.gestionecentroanalisi.repository.UtenteRepository;
 import it.prova.gestionecentroanalisi.web.api.exception.ElementNotFoundException;
@@ -29,6 +31,9 @@ public class UtenteServiceImpl implements UtenteService {
 
 	@Autowired
 	private RuoloRepository ruoloRepository;
+	
+	@Autowired
+    private MedicoPazienteRepository medicoPazienteRepository;
 
 	@Override
 	public List<Utente> listAllUtenti() {
@@ -122,4 +127,28 @@ public class UtenteServiceImpl implements UtenteService {
         utenteRepository.save(user);
     }
 
+    @Override
+    public Utente salvaUtente(Utente utente) {
+        return utenteRepository.save(utente);
+    }
+
+    public MedicoPaziente aggiungiPazienteAMedico(Long medicoId, Long pazienteId) {
+        Utente medico = utenteRepository.findById(medicoId).orElseThrow(() -> new RuntimeException("Medico non trovato"));
+        Utente paziente = utenteRepository.findById(pazienteId).orElseThrow(() -> new RuntimeException("Paziente non trovato"));
+
+        MedicoPaziente medicoPaziente = new MedicoPaziente();
+        medicoPaziente.setMedico(medico);
+        medicoPaziente.setPaziente(paziente);
+
+        return medicoPazienteRepository.save(medicoPaziente);
+    }
+
+    public List<Utente> trovaPazientiPerMedico(Long medicoId) {
+        return medicoPazienteRepository.findPazientiByMedicoId(medicoId);
+    }
+
+    public List<Utente> trovaMediciPerPaziente(Long pazienteId) {
+        return medicoPazienteRepository.findMediciByPazienteId(pazienteId);
+    }
+    
 }

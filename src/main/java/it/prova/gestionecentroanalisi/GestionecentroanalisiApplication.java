@@ -57,5 +57,6 @@ public class GestionecentroanalisiApplication implements CommandLineRunner {
             utenteServiceInstance.inserisciNuovo(admin);
             
         }
+//		utenteServiceInstance.aggiungiPazienteAMedico(3L, 2L);
 	}
 }
