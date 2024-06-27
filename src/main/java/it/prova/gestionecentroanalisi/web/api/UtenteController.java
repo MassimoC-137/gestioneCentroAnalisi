@@ -46,6 +46,11 @@ public class UtenteController {
 				utenteLoggato.getUsername(), utenteLoggato.getEmail(), ruoli));
 	}
 	
+	@GetMapping("{id}")
+	public UtenteDTO getById(@PathVariable Long id) {
+		return UtenteDTO.buildUtenteDTOFromModel(utenteService.caricaSingoloUtente(id));
+	}
+	
 	@GetMapping
     public List<Utente> getAllUsers() {
         return utenteService.listAllUtenti();
