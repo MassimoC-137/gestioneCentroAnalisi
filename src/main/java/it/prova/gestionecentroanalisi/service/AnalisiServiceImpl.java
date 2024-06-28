@@ -90,7 +90,11 @@ public class AnalisiServiceImpl implements AnalisiService {
 			analisiRepository.deleteById(id);
 		else
 			throw new NotSamePazienteException("The current Paziente and the Analisi's paziente are not the same");
-
 	}
+	
+	@Override
+	public List<Analisi> findByMedicoId(Long medicoId) {
+        return analisiRepository.findByMedicoId(medicoId);
+    }
 
 }

@@ -58,10 +58,15 @@ public class AnalisiController {
 	}
 
 	@PutMapping
-	public AnalisiDTO aggiorna(@Valid @RequestBody AnalisiDTO input,Principal principal) {
+	public AnalisiDTO aggiorna(@Valid @RequestBody AnalisiDTO input, Principal principal) {
 		Analisi aggiornata = input.buildAnalisiModel();
 		aggiornata = analisiservice.aggiorna(aggiornata, principal.getName());
 		return AnalisiDTO.buildAnalisiDTOFromModel(aggiornata);
+	}
+
+	@GetMapping("/medico/{medicoId}")
+	public List<Analisi> getAnalisiByMedico(@PathVariable Long medicoId) {
+		return analisiservice.findByMedicoId(medicoId);
 	}
 
 }

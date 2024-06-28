@@ -14,5 +14,8 @@ public interface AnalisiRepository  extends CrudRepository<Analisi, Long>{
 
 	@Query(" select a from Analisi a left join fetch a.paziente u where a.id=:id")
 	public Analisi findByIdEager(Long id);
+	
+	@Query("select a from Analisi a where a.medico.id = :medicoId")
+	public List<Analisi> findByMedicoId(Long medicoId);
 
 }

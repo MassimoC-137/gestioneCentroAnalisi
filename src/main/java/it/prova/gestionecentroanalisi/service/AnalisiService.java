@@ -6,7 +6,7 @@ import it.prova.gestionecentroanalisi.model.Analisi;
 
 public interface AnalisiService {
 	
-public List<Analisi> listAll();
+	public List<Analisi> listAll();
 	
 	public List<Analisi> listMine(String username);
 	
@@ -18,4 +18,5 @@ public List<Analisi> listAll();
 	
 	public void delete(Long id, String username);
 
+	public List<Analisi> findByMedicoId(Long medicoId);
 }
